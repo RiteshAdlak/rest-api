@@ -1,0 +1,544 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Swagger Book",
+    "description": "Documentation Representation for the Book REST API developed in Nodejs. ",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "registration",
+      "description": "Register an User"
+    },
+    {
+      "name": "admin",
+      "description": "Admin Operations"
+    },
+    {
+      "name": "users",
+      "description": "Users oeration"
+    }
+  ],
+  "paths": {
+    "/users/signup": {
+      "post": {
+        "tags": [
+          "registration"
+        ],
+        "summary": "Register an User/Admin",
+        "operationId": "placeSignup",
+        "requestBody": {
+          "description": "Signup Activity for an User/Admin.For Admin Signup, please use username=admin and enable admin flag from database using Query : db.users.update({'username':'admin'},{$set:{'admin':'true'}})",
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": [
+          "registration"
+        ],
+        "summary": "User Login",
+        "operationId": "placeLogin",
+        "requestBody": {
+          "description": "Login Activity for an User",
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Login Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "token": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "List all the Users",
+        "description": "Listing Users",
+        "operationId": "listUsers",
+        "responses": {
+          "200": {
+            "description": "Listing Users Successful",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/books": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "List all the Books",
+        "description": "This Request will list down all the books.",
+        "operationId": "listBooks",
+        "parameters": [
+          {
+            "name": "Authorization Header",
+            "in": "header",
+            "description": "Format : Bearer JWT",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": "string"
+                    },
+                    "featured": {
+                      "type": "boolean"
+                    },
+                    "comments": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Insertion",
+        "operationId": "insertBook",
+        "parameters": [
+          {
+            "name": "Authorization Header",
+            "in": "header",
+            "description": "Format : Bearer JWT",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Insertion Book",
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "string"
+                  },
+                  "featured": {
+                    "type": "boolean"
+                  },
+                  "comments": {
+                    "type": "object",
+                    "properties": {}
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Insertion Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": "string"
+                    },
+                    "featured": {
+                      "type": "boolean"
+                    },
+                    "comments": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Deletes all the Books",
+        "operationId": "deleteAllBooks",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Format : Bearer JWT",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid Request",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/books/{bookId}": {
+      "delete": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Deletes the specific Book with Id",
+        "operationId": "deleteBookId",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Format : Bearer JWT",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bookId",
+            "in": "path",
+            "description": "Specific Book to be Deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid Request",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/books/{bookId}/comments": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "create comment",
+        "description": "User can create comment for the specific BookId",
+        "operationId": "createComment",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Format : Bearer JWT",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bookId",
+            "in": "path",
+            "description": "Specific BookId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Comment Creation",
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rating": {
+                    "type": "string"
+                  },
+                  "comment": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/books/{bookId}/comments/{commentId}": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "update comment",
+        "description": "User can update comment for the specific BookId",
+        "operationId": "updateComment",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Format : Bearer JWT",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bookId",
+            "in": "path",
+            "description": "Specific BookId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "description": "Specific commentId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Comment Updation",
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "comment": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete comment",
+        "description": "User can delete comment for the specific BookId",
+        "operationId": "deleteComment",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Format : Bearer JWT",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bookId",
+            "in": "path",
+            "description": "Specific BookId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "description": "Specific commentId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {}
+}
